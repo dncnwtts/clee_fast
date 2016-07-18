@@ -6,7 +6,7 @@ This should be very fast.
 # degree of the multivariate polynomial to be fit
 degree = 5
 # determines whether or not to use E- or B-mode power spectrum.
-consider = 'EE' #'BB'
+consider = 'BB' #'BB'
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,9 +25,9 @@ global values_EE, values_BB, points
 # computed, the more precisely the regression fits the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
-values_EE = np.loadtxt('training_data_EE.txt')
-values_BB = np.loadtxt('training_data_BB.txt')
-points = np.loadtxt('training_params.txt')
+values_EE = np.loadtxt('data/training_data_EE.txt')
+values_BB = np.loadtxt('data/training_data_BB.txt')
+points = np.loadtxt('data/training_params.txt')
 
 def get_cl(r, s, tau, consider='EE', degree=5):
     if consider == 'EE':
@@ -66,13 +66,14 @@ def get_cl(r, s, tau, consider='EE', degree=5):
 color_idx = np.linspace(0,1, 10)
 taus = np.linspace(0.03, 0.1, 10)
 for ind, tau in zip(color_idx, taus):
-    ell, Cl = get_cl(0.02, 1, tau, consider='BB')
+    ell, Cl = get_cl(0.02, 1, tau, consider=consider)
     plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
 plt.xlim([2, 200])
 plt.xlabel(r'$\ell$', size=20)
-plt.ylabel(r'$C_\ell^\mathrm{EE}$', size=20)
+plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}$'.format(consider), size=20)
 sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
         norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
 sm._A = []
 plt.colorbar(sm, label=r'$\tau$')
+plt.savefig('plots/trs_example_{0}.png'.format(consider))
 plt.show()

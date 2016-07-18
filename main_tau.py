@@ -25,9 +25,9 @@ global values_EE, values_BB, points
 # computed, the more precisely the regression fits the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
-values_EE = np.loadtxt('training_data_tau_EE.txt')
-values_BB = np.loadtxt('training_data_tau_BB.txt')
-points = np.loadtxt('training_params_tau.txt')
+values_EE = np.loadtxt('data/training_data_tau_EE.txt')
+values_BB = np.loadtxt('data/training_data_tau_BB.txt')
+points = np.loadtxt('data/training_params_tau.txt')
 
 def get_cl(tau, consider='EE', degree=5):
     if consider == 'EE':
@@ -78,7 +78,7 @@ sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
         norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
 sm._A = []
 plt.colorbar(sm, label=r'$\tau$')
-plt.savefig('tau_example.png')
+plt.savefig('plots/tau_example.png')
 plt.show()
 
 print('Takes ~{0} seconds'.format(round(np.mean(times),2)))
