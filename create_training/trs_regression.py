@@ -75,13 +75,13 @@ if new == True:
         if i % 10 == 0:
             print(i, new[i])
     print('\n\n\n\n')
-    np.savetxt('training_data_EE.txt', values_EE)
-    np.savetxt('training_data_BB.txt', values_BB)
-    np.savetxt('training_params.txt', points)
+    np.savetxt('../data/training_data_EE.txt', values_EE)
+    np.savetxt('../data/training_data_BB.txt', values_BB)
+    np.savetxt('../data/training_params.txt', points)
 else:
-    values_EE = np.loadtxt('training_data_EE.txt')
-    values_BB = np.loadtxt('training_data_BB.txt')
-    points = np.loadtxt('training_params.txt')
+    values_EE = np.loadtxt('../data/training_data_EE.txt')
+    values_BB = np.loadtxt('../data/training_data_BB.txt')
+    points = np.loadtxt('../data/training_params.txt')
 if consider == 'EE':
     values = values_EE
 else:
@@ -126,12 +126,12 @@ if show:
     plt.ylim([-1e-2, 1e-2])
     plt.ylabel(r'$\Delta C_\ell/C_\ell$', size=20)
     plt.xlabel(r'$\ell$', size=20)
-    plt.savefig('estimate_accuracy')
+    plt.savefig('../plots/estimate_accuracy')
     
     
     import corner
     corner.corner(points, labels=[r'$r$', r'$s$', r'$\tau$'])
-    plt.savefig('point_density')
+    plt.savefig('../plots/point_density')
     
     
     ell = 10 
@@ -179,5 +179,5 @@ if show:
     plt.subplots_adjust(hspace=0, wspace=0)
     fig.suptitle(r'$C_{{ \ell={0} }}^{{ \mathrm{{ {1} }} }}$'.format(ell, consider), size=20)
 
-    plt.savefig('single_ell_accuracy.png')
+    plt.savefig('../plots/single_ell_accuracy.png')
     plt.show()

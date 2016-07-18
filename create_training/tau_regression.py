@@ -8,9 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-param_file = 'training_params_tau.txt'
-EE_file = 'training_data_tau_EE.txt'
-BB_file = 'training_data_tau_BB.txt'
+param_file = '../data/training_params_tau.txt'
+EE_file = '../data/training_data_tau_EE.txt'
+BB_file = '../data/training_data_tau_BB.txt'
 
 
 import camb
@@ -140,6 +140,6 @@ if show:
     plt.figure()
     plt.hist(points[:,0], bins=np.linspace(centers-widths/2, centers+widths/2, 100), histtype='stepfilled')
     plt.xlabel(r'$\tau$', size=20)
-    plt.savefig('tau_density')
+    plt.savefig('../plots/tau_density')
     
     plt.show()
