@@ -64,8 +64,12 @@ def get_cl(tau, consider='EE', degree=5):
 # Sample computation.
 color_idx = np.linspace(0,1, 10)
 taus = np.linspace(0.03, 0.1, 10)
+times = []
+import time
 for ind, tau in zip(color_idx, taus):
+    t0 = time.time()
     ell, Cl = get_cl(tau, consider=consider)
+    times.append(time.time()-t0)
     plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
 plt.xlim([2, 200])
 plt.xlabel(r'$\ell$', size=20)
@@ -74,4 +78,7 @@ sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
         norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
 sm._A = []
 plt.colorbar(sm, label=r'$\tau$')
+plt.savefig('tau_example.png')
 plt.show()
+
+print('Takes ~{0} seconds'.format(round(np.mean(times),2)))
