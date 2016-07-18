@@ -11,3 +11,13 @@ The output of this is several evaluations of C_ell, each of which take about 0.1
 
 ### Relative accuracy of fit
 ![alt text](https://github.com/pqrs6/clee-fast/blob/master/plots/estimate_accuracy.png "dummy text")
+
+
+
+## Simplest example
+```
+python example.py
+```
+The output of this function is a single power spectrum as a function of tau.
+
+![alt text](https://github.com/pqrs6/clee-fast/blob/master/plots/simplest.png "dummy text")
