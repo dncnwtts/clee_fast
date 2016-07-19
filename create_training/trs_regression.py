@@ -49,12 +49,13 @@ def example():
 
 
 
-consider = 'BB'
-degree = 5
+consider = 'EE'
+degree = 7
 new = False
 show = True
 #ntrain = 5
-ntrain = 5000
+#ntrain = 5000
+ntrain = 500
 widths = np.array([0.1, 0.5, 0.06])
 centers = np.array([0.05, 1.0, 0.06])
 if new == True:
@@ -126,12 +127,12 @@ if show:
     plt.ylim([-1e-2, 1e-2])
     plt.ylabel(r'$\Delta C_\ell/C_\ell$', size=20)
     plt.xlabel(r'$\ell$', size=20)
-    plt.savefig('../plots/estimate_accuracy')
+    plt.savefig('../plots/estimate_accuracy_trs')
     
     
     import corner
     corner.corner(points, labels=[r'$r$', r'$s$', r'$\tau$'])
-    plt.savefig('../plots/point_density')
+    plt.savefig('../plots/point_density_trs')
     
     
     ell = 10 
@@ -177,7 +178,7 @@ if show:
     plt.setp(upperleft.get_xticklabels(), visible=False)
     plt.setp(bottomright.get_yticklabels(), visible=False)
     plt.subplots_adjust(hspace=0, wspace=0)
-    fig.suptitle(r'$C_{{ \ell={0} }}^{{ \mathrm{{ {1} }} }}$'.format(ell, consider), size=20)
+    fig.suptitle(r'$C_{{ \ell={0} }}^{{ \mathrm{{ {1} }} }}$ (degree-{2} polynomial)'.format(ell, consider, degree), size=20)
 
-    plt.savefig('../plots/single_ell_accuracy.png')
+    plt.savefig('../plots/single_ell_accuracy_trs.png')
     plt.show()
