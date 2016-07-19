@@ -1,6 +1,12 @@
 # clee-fast
 Uses scikit-learn to quickly obtain polarized power spectra as function of tau, r, and A_s.
 
+## Shell usage
+```
+>>> import main_ts
+>>> tau, s = 0.065, 1.05
+>>> ell, cl = main_ts.get_cl(tau, s)
+```
 
 ## Example usage
 ```
