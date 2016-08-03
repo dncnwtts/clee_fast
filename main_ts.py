@@ -96,7 +96,7 @@ if __name__ == '__main__':
     sm = plt.cm.ScalarMappable(cmap=plt.cm.magma,
             norm=plt.Normalize(vmin=s.min(), vmax=s.max()))
     sm._A = []
-    plt.colorbar(sm, label=r'$\tau$')
+    plt.colorbar(sm, label=r'$A_s/(2.3\times10^{-9})$')
     plt.savefig('plots/s_example_ts.png')
     plt.show()
     
