@@ -18,6 +18,11 @@ The output of this is several evaluations of C_ell, each of which take about 0.1
 ### Relative accuracy of fit
 ![alt text](https://github.com/pqrs6/clee-fast/blob/master/plots/estimate_accuracy.png "dummy text")
 
+```
+python main_ts.py
+```
+![alt text](https://github.com/pqrs6/clee-fast/blob/master/plots/tau_example_ts.png "dummy text")
+![alt text](https://github.com/pqrs6/clee-fast/blob/master/plots/s_example_ts.png "dummy text")
 
 
 ## Simplest example
