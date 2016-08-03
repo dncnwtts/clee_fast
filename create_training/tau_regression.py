@@ -30,7 +30,7 @@ def C_l(tau, ps='EE'):
     
     results = camb.get_results(pars)
     powers = results.get_cmb_power_spectra(pars)
-    cl = powers['total']
+    cl = powers['total']*(1e6*pars.TCMB)**2 # in uK_CMB^2
     if ps == 'EE':
         return cl[:200,1]
     elif ps == 'BB':
@@ -56,7 +56,7 @@ def example():
 
 consider = 'EE'
 degree = 9
-new = False
+new = True
 show = True
 ntrain = 2000
 widths = np.array([0.08])
