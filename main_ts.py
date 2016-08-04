@@ -77,7 +77,7 @@ if __name__ == '__main__':
         plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
     plt.xlim([2, 200])
     plt.xlabel(r'$\ell$', size=20)
-    plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}$'.format(consider), size=20)
+    plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)
     sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
             norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
     sm._A = []
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
     plt.xlim([2, 200])
     plt.xlabel(r'$\ell$', size=20)
-    plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}$'.format(consider), size=20)
+    plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)
     sm = plt.cm.ScalarMappable(cmap=plt.cm.magma,
             norm=plt.Normalize(vmin=s.min(), vmax=s.max()))
     sm._A = []

@@ -24,7 +24,7 @@ def C_l(s, tau, ps='BB'):
     
     results = camb.get_results(pars)
     powers = results.get_cmb_power_spectra(pars)
-    cl = powers['total']
+    cl = powers['total']*(1e6*pars.TCMB)**2 # in uK_CMB^2
     if ps == 'EE':
         return cl[:200,1]
     elif ps == 'BB':

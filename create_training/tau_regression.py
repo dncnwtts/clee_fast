@@ -56,7 +56,7 @@ def example():
 
 consider = 'EE'
 degree = 9
-new = True
+new = False
 show = True
 ntrain = 2000
 widths = np.array([0.08])
@@ -134,7 +134,7 @@ if show:
     plt.ylim([-1e-2, 1e-2])
     plt.ylabel(r'$\Delta C_\ell/C_\ell$', size=20)
     plt.xlabel(r'$\ell$', size=20)
-    plt.savefig('estimate_accuracy_tau')
+    plt.savefig('../plots/estimate_accuracy_tau')
     
     
     plt.figure()

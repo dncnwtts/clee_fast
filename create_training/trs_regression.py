@@ -24,7 +24,7 @@ def C_l(r, s, tau, ps='BB'):
     
     results = camb.get_results(pars)
     powers = results.get_cmb_power_spectra(pars)
-    cl = powers['total']
+    cl = powers['total']*(1e6*pars.TCMB)**2 # in uK_CMB^2
     if ps == 'EE':
         return cl[:200,1]
     elif ps == 'BB':
@@ -53,9 +53,7 @@ consider = 'EE'
 degree = 7
 new = False
 show = True
-#ntrain = 5
-#ntrain = 5000
-ntrain = 500
+ntrain = 5000
 widths = np.array([0.1, 0.5, 0.06])
 centers = np.array([0.05, 1.0, 0.06])
 if new == True:
