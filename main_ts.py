@@ -4,7 +4,7 @@ This should be very fast.
 '''
 
 # degree of the multivariate polynomial to be fit
-degree = 9
+degree = 7
 # determines whether or not to use E- or B-mode power spectrum.
 consider = 'EE' #'BB'
 
@@ -65,7 +65,7 @@ def get_cl(tau, s, consider='EE', degree=5):
 if __name__ == '__main__':
     # Sample computation.
     color_idx = np.linspace(0,1, 10)
-    taus = np.linspace(0.03, 0.1, 10)
+    taus = np.linspace(0.05, 0.2, 10)
     s = np.linspace(0.8, 1.2, 10)
     times = []
     import time
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     plt.figure()
     for ind, si in zip(color_idx, s):
         t0 = time.time()
-        ell, Cl = get_cl(0.07, si, consider=consider)
+        ell, Cl = get_cl(0.08, si, consider=consider)
         times.append(time.time()-t0)
         plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
     plt.xlim([2, 200])

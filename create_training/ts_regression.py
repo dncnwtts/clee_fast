@@ -55,8 +55,8 @@ new = False
 show = True
 #ntrain = 5
 ntrain = 5000
-widths = np.array([0.5, 0.06])
-centers = np.array([1.0, 0.06])
+widths = np.array([0.5, 0.16])
+centers = np.array([1.0, 0.12])
 if new == True:
     try:
         points = np.loadtxt('training_params_ts.txt')
