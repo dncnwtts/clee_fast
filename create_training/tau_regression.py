@@ -56,11 +56,11 @@ def example():
 
 consider = 'EE'
 degree = 9
-new = False
+new = True
 show = True
 ntrain = 2000
-widths = np.array([0.08])
-centers = np.array([0.06])
+widths = np.array([0.16])
+centers = np.array([0.12])
 if new == True:
     try:
         points = np.loadtxt(param_file)

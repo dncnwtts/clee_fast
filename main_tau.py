@@ -65,7 +65,7 @@ def get_cl(tau, consider='EE', degree=5):
 if __name__ == '__main__':
     # Sample computation.
     color_idx = np.linspace(0,1, 10)
-    taus = np.linspace(0.03, 0.1, 10)
+    taus = np.linspace(0.05, 0.2, 10)
     times = []
     import time
     for ind, tau in zip(color_idx, taus):
