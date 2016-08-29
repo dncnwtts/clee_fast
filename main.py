@@ -65,37 +65,38 @@ def get_cl(r, s, tau, consider='EE', degree=5):
     Z = 2*np.pi/(ell*(ell+1))
     return ell, Z*estimate[:,0]
 
-# Sample computation.
-color_idx = np.linspace(0, 1, 10)
-taus = np.linspace(0.03, 0.1, 10)
-rs = np.linspace(0, 0.1, 10)
-mpl.rcParams['figure.figsize'][0] *= 2
-plt.subplot(121)
-for ind, tau in zip(color_idx, taus):
-    ell, Cl = get_cl(0.02, 1, tau, consider=consider)
-    plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
-plt.xlim([2, 200])
-plt.ylim([1e-6, 1e-2])
-plt.xlabel(r'$\ell$', size=20)
-plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)
-plt.title(r'$C_\ell^\mathrm{{ {0} }}(r=0.02,s=1,\tau)$'.format(consider), size=25)
-sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
-        norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
-sm._A = []
-plt.colorbar(sm, label=r'$\tau$')
-
-plt.subplot(122)
-for ind, r in zip(color_idx, rs):
-    ell, Cl = get_cl(r, 1, 0.07, consider=consider)
-    plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
-plt.xlim([2, 200])
-plt.xlabel(r'$\ell$', size=20)
-plt.ylim([1e-6, 1e-2])
-plt.title(r'$C_\ell^\mathrm{{ {0} }}(r,s=1,\tau=0.07)$'.format(consider), size=25)
-sm = plt.cm.ScalarMappable(cmap=plt.cm.magma,
-        norm=plt.Normalize(vmin=rs.min(), vmax=rs.max()))
-sm._A = []
-plt.colorbar(sm, label=r'$r$')
-
-plt.savefig('plots/trs_example_{0}.png'.format(consider))
-plt.show()
+if __name__ == '__main__':
+    # Sample computation.
+    color_idx = np.linspace(0, 1, 10)
+    taus = np.linspace(0.03, 0.1, 10)
+    rs = np.linspace(0, 0.1, 10)
+    mpl.rcParams['figure.figsize'][0] *= 2
+    plt.subplot(121)
+    for ind, tau in zip(color_idx, taus):
+        ell, Cl = get_cl(0.02, 1, tau, consider=consider)
+        plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
+    plt.xlim([2, 200])
+    plt.ylim([1e-6, 1e-2])
+    plt.xlabel(r'$\ell$', size=20)
+    plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)
+    plt.title(r'$C_\ell^\mathrm{{ {0} }}(r=0.02,s=1,\tau)$'.format(consider), size=25)
+    sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis,
+            norm=plt.Normalize(vmin=taus.min(), vmax=taus.max()))
+    sm._A = []
+    plt.colorbar(sm, label=r'$\tau$')
+    
+    plt.subplot(122)
+    for ind, r in zip(color_idx, rs):
+        ell, Cl = get_cl(r, 1, 0.07, consider=consider)
+        plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
+    plt.xlim([2, 200])
+    plt.xlabel(r'$\ell$', size=20)
+    plt.ylim([1e-6, 1e-2])
+    plt.title(r'$C_\ell^\mathrm{{ {0} }}(r,s=1,\tau=0.07)$'.format(consider), size=25)
+    sm = plt.cm.ScalarMappable(cmap=plt.cm.magma,
+            norm=plt.Normalize(vmin=rs.min(), vmax=rs.max()))
+    sm._A = []
+    plt.colorbar(sm, label=r'$r$')
+    
+    plt.savefig('plots/trs_example_{0}.png'.format(consider))
+    plt.show()
