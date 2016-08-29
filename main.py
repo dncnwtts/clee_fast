@@ -70,7 +70,8 @@ if __name__ == '__main__':
     color_idx = np.linspace(0, 1, 10)
     taus = np.linspace(0.03, 0.1, 10)
     rs = np.linspace(0, 0.1, 10)
-    mpl.rcParams['figure.figsize'][0] *= 2
+    fs = mpl.rcParams['figure.figsize']
+    plt.figure(figsize=(fs[0]*2, fs[1]))
     plt.subplot(121)
     for ind, tau in zip(color_idx, taus):
         ell, Cl = get_cl(0.02, 1, tau, consider=consider)
