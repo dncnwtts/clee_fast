@@ -10,6 +10,8 @@ consider = 'EE' #'BB'
 
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/'))
 
 # PolynomialFeatures essentially creates a Vandermonde matrix in the parameters
 # you're interested in, making all possible variable combinations up to order
@@ -25,9 +27,9 @@ global values_EE, values_BB, points
 # computed, the more precisely the regression fits the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
-values_EE = np.loadtxt('data/training_data_EE_ts.txt')
-values_BB = np.loadtxt('data/training_data_BB_ts.txt')
-points = np.loadtxt('data/training_params_ts.txt')
+values_EE = np.loadtxt(DATA_DIR+'/training_data_EE_ts.txt')
+values_BB = np.loadtxt(DATA_DIR+'/training_data_BB_ts.txt')
+points = np.loadtxt(DATA_DIR+'/training_params_ts.txt')
 
 def get_cl(tau, s, consider='EE', degree=5):
     if consider == 'EE':
