@@ -63,6 +63,20 @@ def get_cl(tau, s, consider='EE', degree=5):
     Z = 2*np.pi/(ell*(ell+1))
     return ell, Z*estimate[:,0]
 
+from scipy.interpolate import griddata
+def get_cl_grid(tau, s, consider='EE'):
+    if consider == 'EE':
+        values = values_EE
+    else:
+        values = values_BB
+
+    v = values
+    p = points
+
+    out = griddata(p, v[:,2:], ([s], [tau]))
+    ell = np.arange(2, len(out[0])+2)
+    Z = 2*np.pi/(ell*(ell+1))
+    return ell, Z*out[0]
 
 if __name__ == '__main__':
     # Sample computation.
@@ -74,7 +88,7 @@ if __name__ == '__main__':
     plt.figure()
     for ind, tau in zip(color_idx, taus):
         t0 = time.time()
-        ell, Cl = get_cl(tau, 1, consider=consider)
+        ell, Cl = get_cl_grid(tau, 1, consider=consider)
         times.append(time.time()-t0)
         plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
     plt.xlim([2, 200])
@@ -89,7 +103,7 @@ if __name__ == '__main__':
     plt.figure()
     for ind, si in zip(color_idx, s):
         t0 = time.time()
-        ell, Cl = get_cl(0.08, si, consider=consider)
+        ell, Cl = get_cl_grid(0.08, si, consider=consider)
         times.append(time.time()-t0)
         plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
     plt.xlim([2, 200])

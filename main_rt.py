@@ -22,14 +22,14 @@ from sklearn.preprocessing import PolynomialFeatures
 # polynomial are the parameters that are fit.
 from sklearn.linear_model import LinearRegression
 # Training data.
-global values_EE, values_BB, pointr
-# These are pre-computed by the trs_regression.py file. The more pointr
+global values_EE, values_BB, points
+# These are pre-computed by the trs_regression.py file. The more points
 # computed, the more precisely the regression fitr the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
 values_EE = np.loadtxt(DATA_DIR+'/training_data_EE_rt.txt')
 values_BB = np.loadtxt(DATA_DIR+'/training_data_BB_rt.txt')
-pointr = np.loadtxt(DATA_DIR+'/training_params_rt.txt')
+points = np.loadtxt(DATA_DIR+'/training_params_rt.txt')
 
 def get_cl(tau, r, consider='EE', degree=5):
     if consider == 'EE':
@@ -38,7 +38,7 @@ def get_cl(tau, r, consider='EE', degree=5):
         values = values_BB
 
     v = values#[:100]
-    p = pointr#[:100]
+    p = points#[:100]
 
     poly = PolynomialFeatures(degree=degree)
     # Vandermonde matrix of pre-computed paramter values.
@@ -63,6 +63,21 @@ def get_cl(tau, r, consider='EE', degree=5):
     Z = 2*np.pi/(ell*(ell+1))
     return ell, Z*estimate[:,0]
 
+from scipy.interpolate import griddata
+def get_cl_grid(tau, r, consider='EE'):
+    if consider == 'EE':
+        values = values_EE
+    else:
+        values = values_BB
+
+    v = values
+    p = points
+
+    out = griddata(p, v[:,2:], ([r], [tau]))
+    ell = np.arange(2, len(out[0])+2)
+    Z = 2*np.pi/(ell*(ell+1))
+    return ell, Z*out[0]
+
 
 if __name__ == '__main__':
     # Sample computation.
@@ -74,9 +89,11 @@ if __name__ == '__main__':
     plt.figure()
     for ind, tau in zip(color_idx, taus):
         t0 = time.time()
-        ell, Cl = get_cl(tau, 0.01, consider=consider)
+        ell, Cl = get_cl_grid(tau, 0.01, consider=consider)
         times.append(time.time()-t0)
-        plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
+        plt.plot(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
+    plt.xscale('log')
+    plt.yscale('log')
     plt.xlim([2, 200])
     plt.xlabel(r'$\ell$', size=20)
     plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)
@@ -89,9 +106,11 @@ if __name__ == '__main__':
     plt.figure()
     for ind, ri in zip(color_idx, r):
         t0 = time.time()
-        ell, Cl = get_cl(0.08, ri, consider=consider)
+        ell, Cl = get_cl_grid(0.08, ri, consider=consider)
         times.append(time.time()-t0)
-        plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
+        plt.plot(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
+    plt.xscale('log')
+    plt.yscale('log')
     plt.xlim([2, 200])
     plt.xlabel(r'$\ell$', size=20)
     plt.ylabel(r'$C_\ell^\mathrm{{ {0} }}\ (\mathrm{{\mu K_{{CMB}}^2}})$'.format(consider), size=20)

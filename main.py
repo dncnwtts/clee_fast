@@ -28,9 +28,9 @@ global values_EE, values_BB, points
 # computed, the more precisely the regression fits the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
-values_EE = np.loadtxt(DATA_DIR+'/training_data_EE.txt')
-values_BB = np.loadtxt(DATA_DIR+'/training_data_BB.txt')
-points = np.loadtxt(DATA_DIR+'/training_params.txt')
+values_EE = np.loadtxt(DATA_DIR+'/training_data_EE.txt')[:100]
+values_BB = np.loadtxt(DATA_DIR+'/training_data_BB.txt')[:100]
+points = np.loadtxt(DATA_DIR+'/training_params.txt')[:100]
 
 def get_cl(r, s, tau, consider='EE', degree=5):
     if consider == 'EE':
@@ -38,8 +38,8 @@ def get_cl(r, s, tau, consider='EE', degree=5):
     else:
         values = values_BB
 
-    v = values[:100]
-    p = points[:100]
+    v = values
+    p = points
 
     poly = PolynomialFeatures(degree=degree)
     # Vandermonde matrix of pre-computed paramter values.
@@ -65,8 +65,25 @@ def get_cl(r, s, tau, consider='EE', degree=5):
     Z = 2*np.pi/(ell*(ell+1))
     return ell, Z*estimate[:,0]
 
+from scipy.interpolate import griddata
+def get_cl_grid(r, s, tau, consider='EE'):
+    if consider == 'EE':
+        values = values_EE
+    else:
+        values = values_BB
+
+    v = values
+    p = points
+
+    out = griddata(p, v[:,2:], ([r], [s], [tau]))
+    ell = np.arange(2, len(out[0])+2)
+    Z = 2*np.pi/(ell*(ell+1))
+    return ell, Z*out[0]
+
 if __name__ == '__main__':
     # Sample computation.
+    import time
+    t = []
     color_idx = np.linspace(0, 1, 10)
     taus = np.linspace(0.03, 0.1, 10)
     rs = np.linspace(0, 0.1, 10)
@@ -74,8 +91,12 @@ if __name__ == '__main__':
     plt.figure(figsize=(fs[0]*2, fs[1]))
     plt.subplot(121)
     for ind, tau in zip(color_idx, taus):
-        ell, Cl = get_cl(0.02, 1, tau, consider=consider)
-        plt.loglog(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
+        t0 = time.time()
+        ell, Cl = get_cl_grid(0.02, 1, tau, consider=consider)
+        t.append(time.time()-t0)
+        plt.plot(ell, Cl, color=plt.cm.viridis(ind), alpha=0.8, lw=5)
+    plt.xscale('log')
+    plt.yscale('log')
     plt.xlim([2, 200])
     plt.ylim([1e-6, 1e-2])
     plt.xlabel(r'$\ell$', size=20)
@@ -88,8 +109,12 @@ if __name__ == '__main__':
     
     plt.subplot(122)
     for ind, r in zip(color_idx, rs):
-        ell, Cl = get_cl(r, 1, 0.07, consider=consider)
-        plt.loglog(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
+        t0 = time.time()
+        ell, Cl = get_cl_grid(r, 1, 0.07, consider=consider)
+        t.append(time.time()-t0)
+        plt.plot(ell, Cl, color=plt.cm.magma(ind), alpha=0.8, lw=5)
+    plt.xscale('log')
+    plt.yscale('log')
     plt.xlim([2, 200])
     plt.xlabel(r'$\ell$', size=20)
     plt.ylim([1e-6, 1e-2])
@@ -101,3 +126,5 @@ if __name__ == '__main__':
     
     plt.savefig('plots/trs_example_{0}.png'.format(consider))
     plt.show()
+
+    print(np.mean(t), np.std(t))
