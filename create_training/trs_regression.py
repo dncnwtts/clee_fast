@@ -7,17 +7,27 @@ of googling got me there) and I have done this with a simple example.
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Table 8, PlanckTTTEEE+SIMlow
+# Obh2 = 0.02218
+# Och2 = 0.1205
+# tau = 0.0596
+# log(1e10 A_s) = 3.056
+# A_s = 2.124e-9
+# n_s = 0.9619
+# H_0 = 66.93
+# A_s e^{-2\tau} = (1.886\pm0.012) e-9
 import camb
 pars = camb.CAMBparams()
-pars.set_cosmology(H0=70., ombh2=0.022, omch2=0.122, mnu=0.06, omk=0, tau=0.06)
-pars.InitPower.set_params(ns=1.0, r=0.1, As=2.3e-9)
+pars.set_cosmology(H0=66.93, ombh2=0.02218, omch2=0.1205, mnu=0.06, omk=0,
+        tau=0.0596)
+pars.InitPower.set_params(ns=0.9619, r=0.1, As=2.12e-9)
 pars.set_for_lmax(200, lens_potential_accuracy=0)
 pars.WantTensors = True
 pars.AccurateReionization = 1
 
 def C_l(r, s, tau, ps='BB'):
-    pars.set_cosmology(H0=70, ombh2=0.022, omch2=0.122, mnu=0.06, omk=0, tau=tau)
-    pars.InitPower.set_params(ns=1.0, r=r, As=2.3e-9*s)
+    pars.set_cosmology(H0=66.93, ombh2=0.02218, omch2=0.1205, mnu=0.06, omk=0, tau=tau)
+    pars.InitPower.set_params(ns=0.9619, r=r, As=2.12e-9*s)
     pars.set_for_lmax(2500, lens_potential_accuracy=0)
     pars.WantTensors = True
     pars.AccurateReionization = 1
@@ -49,7 +59,7 @@ def example():
 
 
 if __name__ == '__main__':
-    consider = 'EE'
+    consider = 'BB'
     degree = 7
     new = False
     show = True
@@ -67,12 +77,16 @@ if __name__ == '__main__':
             values_BB = np.array([]).reshape(-1, 200)
         new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
         points = np.concatenate( (points, new))
+        import time
+        t0 = time.time()
         for i in range(ntrain):
             EE, BB = C_l(*new[i], ps='EB')
             values_EE = np.concatenate((values_EE, EE.reshape(-1,200)))
             values_BB = np.concatenate((values_BB, BB.reshape(-1,200)))
             if i % 10 == 0:
+                print(time.time() - t0)
                 print(i, new[i])
+                t0 = time.time()
         print('\n\n\n\n')
         np.savetxt('../data/training_data_EE.txt', values_EE)
         np.savetxt('../data/training_data_BB.txt', values_BB)
@@ -86,7 +100,7 @@ if __name__ == '__main__':
     else:
         values = values_BB
     
-    ntest = len(values)/10
+    ntest = len(values)//10
     predict = widths*(np.random.rand(ntest,3) - 0.5) + centers
     
     from sklearn.preprocessing import PolynomialFeatures
@@ -116,6 +130,7 @@ if __name__ == '__main__':
         esti = estimate[:,i]
         x = (true[2:]-esti[2:])/true[2:]
         plt.plot(x, label=r'$r={0}, s={1}, \tau={2}$'.format(*p))
+    plt.show()
     
     if show:
         
