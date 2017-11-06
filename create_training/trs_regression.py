@@ -61,21 +61,24 @@ def example():
 if __name__ == '__main__':
     consider = 'BB'
     degree = 7
-    new = False
+    new = True
     show = True
-    ntrain = 5000
+    ntrain = 500
     widths = np.array([0.1, 0.5, 0.06])
     centers = np.array([0.05, 1.0, 0.06])
     if new == True:
         try:
-            points = np.loadtxt('training_params.txt')
-            values_EE = np.loadtxt('training_data_EE.txt')
-            values_BB = np.loadtxt('training_data_BB.txt')
+            points = np.loadtxt('../data/training_params.txt')
+            values_EE = np.loadtxt('../data/training_data_EE.txt')
+            values_BB = np.loadtxt('../data/training_data_BB.txt')
         except IOError:
             points = np.array([]).reshape(-1,3)
             values_EE = np.array([]).reshape(-1, 200)
             values_BB = np.array([]).reshape(-1, 200)
+        #new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        #points = np.concatenate( (points, new))
         new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        #new[:,0] = 0
         points = np.concatenate( (points, new))
         import time
         t0 = time.time()
@@ -101,7 +104,10 @@ if __name__ == '__main__':
         values = values_BB
     
     ntest = len(values)//10
+    #predict = widths*(np.random.rand(3*ntest//4,3) - 0.5) + centers
     predict = widths*(np.random.rand(ntest,3) - 0.5) + centers
+    #predict[:,0] = 0
+    #predict = np.concatenate((predict, predict2))
     
     from sklearn.preprocessing import PolynomialFeatures
     from sklearn.linear_model import LinearRegression
@@ -128,9 +134,8 @@ if __name__ == '__main__':
         plt.figure('percent difference')
         true = C_l(*p, ps=consider)
         esti = estimate[:,i]
-        x = (true[2:]-esti[2:])/true[2:]
-        plt.plot(x, label=r'$r={0}, s={1}, \tau={2}$'.format(*p))
-    plt.show()
+        x = abs((true[2:]-esti[2:])/true[2:])
+        plt.semilogy(x, label=r'$r={0}, s={1}, \tau={2}$'.format(*p))
     
     if show:
         

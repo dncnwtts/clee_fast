@@ -28,10 +28,13 @@ global values_EE, values_BB, points
 # computed, the more precisely the regression fits the true solution, but the
 # time goes up as O(C^2*N), where N is the number of training samples and C is
 # the degree of the polynomial.
-values_EE = np.loadtxt(DATA_DIR+'/training_data_EE.txt')[:100]
-values_BB = np.loadtxt(DATA_DIR+'/training_data_BB.txt')[:100]
-points = np.loadtxt(DATA_DIR+'/training_params.txt')[:100]
-
+values_EE = np.loadtxt(DATA_DIR+'/training_data_EE.txt')#[:100]
+values_BB = np.loadtxt(DATA_DIR+'/training_data_BB.txt')#[:100]
+points = np.loadtxt(DATA_DIR+'/training_params.txt')#[:100]
+#inds = np.random.randint(0, len(points), size=500)
+#values_EE = values_EE[inds]
+#values_BB = values_BB[inds]
+#points = points[inds]
 def get_cl(r, s, tau, consider='EE', degree=5):
     if consider == 'EE':
         values = values_EE
