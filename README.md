@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1066548.svg)](https://doi.org/10.5281/zenodo.1066548)
+
 # clee-fast
 Uses scikit-learn to quickly obtain polarized power spectra as function of tau, r, and A_s.
 
