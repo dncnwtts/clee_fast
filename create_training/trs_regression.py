@@ -61,11 +61,11 @@ def example():
 if __name__ == '__main__':
     consider = 'BB'
     degree = 7
-    new = True
+    new = False
     show = True
     ntrain = 500
-    widths = np.array([0.1, 0.5, 0.06])
-    centers = np.array([0.05, 1.0, 0.06])
+    widths = np.array([0.2, 0.5, 0.12])
+    centers = np.array([0.1, 1.0, 0.06])
     if new == True:
         try:
             points = np.loadtxt('../data/training_params.txt')
@@ -75,22 +75,43 @@ if __name__ == '__main__':
             points = np.array([]).reshape(-1,3)
             values_EE = np.array([]).reshape(-1, 200)
             values_BB = np.array([]).reshape(-1, 200)
-        #new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
-        #points = np.concatenate( (points, new))
+
         new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
-        #new[:,0] = 0
+        new[:,0] = 0
+
+        new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        new2[:,0] = 0.2
+        new = np.concatenate( (new, new2))
+
+        new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        new2[:,1] = 0.75
+        new = np.concatenate( (new, new2))
+
+        new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        new2[:,1] = 1.25
+        new = np.concatenate( (new, new2))
+
+        new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        new2[:,2] = 0.0
+        new = np.concatenate( (new, new2))
+
+        new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
+        new2[:,2] = 0.12
+        new = np.concatenate( (new, new2))
+
+
+        new2 = widths*(np.random.rand(10*ntrain,3) - 0.5) + centers
+        new = np.concatenate( (new, new2))
+
+
         points = np.concatenate( (points, new))
-        import time
-        t0 = time.time()
-        for i in range(ntrain):
+
+        for i in range(len(new)):
             EE, BB = C_l(*new[i], ps='EB')
             values_EE = np.concatenate((values_EE, EE.reshape(-1,200)))
             values_BB = np.concatenate((values_BB, BB.reshape(-1,200)))
-            if i % 10 == 0:
-                print(time.time() - t0)
-                print(i, new[i])
-                t0 = time.time()
-        print('\n\n\n\n')
+            if i % 20 == 0:
+                print(i, new[i], len(new))
         np.savetxt('../data/training_data_EE.txt', values_EE)
         np.savetxt('../data/training_data_BB.txt', values_BB)
         np.savetxt('../data/training_params.txt', points)
