@@ -61,26 +61,21 @@ def example():
 if __name__ == '__main__':
     consider = 'BB'
     degree = 7
-    new = False
+    new = True
     show = True
     ntrain = 500
-    widths = np.array([0.2, 0.5, 0.12])
-    centers = np.array([0.1, 1.0, 0.06])
+    widths =  np.array([0.30, 0.5, 0.12])
+    centers = np.array([0.15, 1.0, 0.06])
     if new == True:
-        try:
-            points = np.loadtxt('../data/training_params.txt')
-            values_EE = np.loadtxt('../data/training_data_EE.txt')
-            values_BB = np.loadtxt('../data/training_data_BB.txt')
-        except IOError:
-            points = np.array([]).reshape(-1,3)
-            values_EE = np.array([]).reshape(-1, 200)
-            values_BB = np.array([]).reshape(-1, 200)
+        points = np.array([]).reshape(-1,3)
+        values_EE = np.array([]).reshape(-1, 200)
+        values_BB = np.array([]).reshape(-1, 200)
 
         new = widths*(np.random.rand(ntrain,3) - 0.5) + centers
         new[:,0] = 0
 
         new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
-        new2[:,0] = 0.2
+        new2[:,0] = 0.3
         new = np.concatenate( (new, new2))
 
         new2 = widths*(np.random.rand(ntrain,3) - 0.5) + centers
